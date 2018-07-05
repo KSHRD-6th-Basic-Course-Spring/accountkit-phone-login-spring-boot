@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,12 +22,17 @@ import com.chhaileng.app.model.Role;
 import com.chhaileng.app.model.User;
 
 @Controller
+@PropertySource("classpath:smslogin.properties")
 public class SMSLoginController {
 
-    private String  FB_APP_ID = "1529574253759244";
-    private String  AK_APP_SECRET = "24d8a491f1723b0089dd36a9cd17ff4d";
-    private static final String  ME_ENDPOINT_BASE_URL = "https://graph.accountkit.com/v1.1/me";
-    private static final String  TOKEN_EXCHANGE_BASE_URL = "https://graph.accountkit.com/v1.1/access_token";
+	@Value("${fb.app.id}")
+    private String FB_APP_ID;
+	
+	@Value("${fb.accountkit.secret}")
+    private String  AK_APP_SECRET;
+    
+	private static final String ME_ENDPOINT_BASE_URL = "https://graph.accountkit.com/v1.1/me";
+    private static final String TOKEN_EXCHANGE_BASE_URL = "https://graph.accountkit.com/v1.1/access_token";
 
     private RestTemplate restTemplate = new RestTemplate();
     
