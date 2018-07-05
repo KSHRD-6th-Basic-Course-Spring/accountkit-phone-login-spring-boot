@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+<script src="/js/sms-login.js"></script>
+<script src="https://sdk.accountkit.com/en_US/sdk.js"></script>
+<style>
+	.fb {
+		width: 180px;
+		height: 30px;
+		background-color: #4267b2;
+		border: 0px;
+		color: white;
+		font-weight: bold;
+		border-radius: 5px;
+	}
+</style>
+</head>
+<body>
+	<h1>Login with Phone Number</h1>
+	<h2 th:if="${param.logout}">You have been logged out</h2>
+	<div>
+		<select id="country_code">
+			<option value="+855">+855 Cambodia</option>
+		</select>
+		<input id="phone_number" type="text" placeholder="Phone Number" />
+		<br/><br/>
+		<button class="fb" onclick="smsLogin()">Login using Facebook</button>
+	</div>
+	
+	<form id="login_success" action="/login/redirect_success" th:object="${accKitReq}" method="POST">
+		<input id="csrf" type="hidden" name="csrf" th:field="*{csrf}"/>
+        <input id="code" type="hidden" name="code" th:field="*{code}"/>
+	</form>
+</body>
+</html>
