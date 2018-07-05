@@ -22,8 +22,8 @@ import com.chhaileng.app.model.User;
 @Controller
 public class SMSLoginController {
 
-    private String  APP_ID = "1529574253759244";
-    private String  APP_SECRET = "25fd5f666f7c7928a42cac044bf2c6a6";
+    private String  FB_APP_ID = "1529574253759244";
+    private String  AK_APP_SECRET = "24d8a491f1723b0089dd36a9cd17ff4d";
     private static final String  ME_ENDPOINT_BASE_URL = "https://graph.accountkit.com/v1.1/me";
     private static final String  TOKEN_EXCHANGE_BASE_URL = "https://graph.accountkit.com/v1.1/access_token";
 
@@ -37,16 +37,10 @@ public class SMSLoginController {
 	
 	@PostMapping("/login/redirect_success")
 	public String loginSuccess(@ModelAttribute AccountKitPostRequest accKitReq) {
-//		String uri = TOKEN_EXCHANGE_BASE_URL + "?grant_type=authorization_code&code=" +
-//						accKitReq.getCode() + "&access_token=AA|" + APP_ID + "|" + APP_SECRET;
-//		System.out.println(accKitReq);
-//		System.out.println(uri);
-//        Object obj = restTemplate.getForObject(uri, Object.class);
-        
-        String uri = TOKEN_EXCHANGE_BASE_URL + "?grant_type=authorization_code" + "&code=" +
-                accKitReq.getCode()+"&access_token=AA|"+APP_ID+"|"+APP_SECRET;
+		String uri = TOKEN_EXCHANGE_BASE_URL + "?grant_type=authorization_code&code=" +
+						accKitReq.getCode() + "&access_token=AA|" + FB_APP_ID + "|" + AK_APP_SECRET;
         Object obj = restTemplate.getForObject(uri, Object.class);
-
+        
         @SuppressWarnings("unchecked")
 		Map<String, Object> info = (HashMap<String,Object>) obj;
         String user_id = (String) info.get("id");
@@ -72,15 +66,14 @@ public class SMSLoginController {
         roles.add(new Role());
         System.out.println(user);
         
-//        // Create login session
-//        Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getRoles());
-//		SecurityContextHolder.getContext().setAuthentication(auth);
-        
-        
+        // Create login session
+        Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getRoles());
+		SecurityContextHolder.getContext().setAuthentication(auth);
+       
 		return "redirect:/index";
 	}
 	
-	@GetMapping(value= {"/index"})
+	@GetMapping(value= {"/", "/index"})
 	public String index() {
 		return "index";
 	}
