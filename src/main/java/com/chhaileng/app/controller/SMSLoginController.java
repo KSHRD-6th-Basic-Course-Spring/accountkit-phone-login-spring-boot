@@ -71,6 +71,7 @@ public class SMSLoginController {
         user.setName("Chhaileng Peng");
         List<Role> roles = new ArrayList<>();
         roles.add(new Role());
+        user.setRoles(roles);
         System.out.println(user);
         
         // Create login session
